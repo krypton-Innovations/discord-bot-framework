@@ -43,8 +43,23 @@ class FrameworkClient extends Client {
   }
 
   async start(token) {
-    console.log('BOOT | Preparing to login...');
     const time = Date.now();
+
+    const purple = "\x1b[35m";
+    const reset = "\x1b[0m";
+
+    const botframeLogo = `
+    _         _    __                    
+
+    | |__  ___| |_ / _|_ _ __ _ _ __  ___ 
+    | '_ \\/ _ \\  _|  _| '_/ _\` | '  \\/ -_)
+    |_.__/\\___/\\__|_| |_| \\__,_|_|_|_\\___|
+    `;
+
+    console.log(`krypton Innovations`);
+    console.log(`${purple}${botframeLogo}${reset}`);
+    console.log(`v${version} | ${time}\n`);
+
 
     const builtInCommands = getBuiltInCommands();
 
@@ -85,7 +100,7 @@ class FrameworkClient extends Client {
     await registerCommands(this, allCommands);
 
     const timeTaken = Date.now() - time;
-    console.log(`BOOT | ${this.user.username} is online (took ${timeTaken}ms)`);
+    console.log(`START | ${this.user.username} is online (took ${timeTaken}ms)`);
   }
 }
 
