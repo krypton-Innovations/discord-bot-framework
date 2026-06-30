@@ -63,7 +63,7 @@ class FrameworkClient extends Client {
 
     await new Promise((resolve) => {
       if (this.isReady()) return resolve();
-      this.once('ready', resolve);
+      this.once('clientReady', resolve);
     });
 
     await registerCommands(this, localCommands);

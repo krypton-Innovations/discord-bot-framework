@@ -1,0 +1,34 @@
+const path = require('path');
+const { EmbedBuilder } = require('discord.js');
+
+const frameworkVersion = require(path.join(__dirname, '..', '..', 'package.json')).version;
+
+module.exports = () => [
+  {
+    name: 'status',
+    description: 'Show bot and framework status.',
+
+    callback: async (client, interaction) => {
+      await interaction.deferReply();
+      const reply = await interaction.fetchReply();
+
+      let botVersion = 'unknown';
+      try {
+        botVersion = require(path.join(process.cwd(), 'package.json')).version;
+      } catch (_) { /* ignore */ }
+
+      const embed = new EmbedBuilder()
+        .setTitle(`${client.user.username} Status`)
+        .setColor('#24864a')
+        .addFields(
+          { name: 'Framework', value: `v${frameworkVersion}`, inline: true },
+          { name: 'Discord Bot', value: `v${botVersion}`, inline: true },
+          { name: 'Uptime', value: `${Math.floor(process.uptime())}s`, inline: true },
+          { name: 'Client Ping', value: `${reply.createdTimestamp - interaction.createdTimestamp}ms`, inline: true },
+          { name: 'WebSocket Ping', value: `${client.ws.ping}ms`, inline: true },
+        );
+
+      await interaction.editReply({ embeds: [embed] });
+    },
+  },
+];
