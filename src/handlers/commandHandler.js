@@ -14,7 +14,7 @@ module.exports.handleCommand = async (client, interaction, commands) => {
   if (commandObject.devOnly) {
     if (!client.config.devUserIds.includes(interaction.user.id)) {
       return interaction.reply({
-        content: '❌ This command is restricted to Developers only.',
+        content: '❌ You do not have the valid permissions required for this command. This command is restricted to Developers only.',
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -27,7 +27,7 @@ module.exports.handleCommand = async (client, interaction, commands) => {
 
     if (!hasRole) {
       return interaction.reply({
-        content: '❌ You do not have the valid permissions required for this command.',
+        content: `❌ You do not have the valid permissions required for this command. This command is restricted to: ${commandObject.permissionsRequired.map(id => `<@&${id}>`).join(', ')} only.`,
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -38,7 +38,7 @@ module.exports.handleCommand = async (client, interaction, commands) => {
   } catch (error) {
     console.error(`Command "${commandObject.name}" error:`, error);
     if (!interaction.replied && !interaction.deferred) {
-      await interaction.reply({ content: '❌ An error occurred.', flags: MessageFlags.Ephemeral }).catch(() => {});
+      await interaction.reply({ content: '❌ An error occurred, please contact the bot developer if this continues.', flags: MessageFlags.Ephemeral }).catch(() => {});
     }
   }
 };
