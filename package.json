@@ -1,5 +1,5 @@
 {
-  "name": "@krypton/discord-bot-framework",
+  "name": "discord-bot-framework",
   "version": "1.0.1",
   "main": "src/index.js",
   "author": "krypton Innovations",
