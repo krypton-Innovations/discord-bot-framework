@@ -4,7 +4,6 @@ module.exports.handleCommand = async (client, interaction, commands) => {
   const commandObject = commands.get(interaction.commandName);
   if (!commandObject) return;
 
-  // Must be in a guild
   if (!interaction.guild) {
     return interaction.reply({
       content: '❌ You cannot use commands in Direct Messages.',
@@ -12,7 +11,6 @@ module.exports.handleCommand = async (client, interaction, commands) => {
     });
   }
 
-  // Dev only check
   if (commandObject.devOnly) {
     if (!client.config.devUserIds.includes(interaction.user.id)) {
       return interaction.reply({
@@ -22,7 +20,6 @@ module.exports.handleCommand = async (client, interaction, commands) => {
     }
   }
 
-  // Role-based permissions
   if (commandObject.permissionsRequired?.length) {
     const hasRole = interaction.member.roles.cache.some(role =>
       commandObject.permissionsRequired.includes(role.id)
