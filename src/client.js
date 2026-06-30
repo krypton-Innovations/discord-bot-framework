@@ -45,19 +45,17 @@ class FrameworkClient extends Client {
   async start(token) {
     const time = Date.now();
 
-    const purple = "\x1b[35m";
-    const reset = "\x1b[0m";
-
-    const botframeLogo = `
-    _         _    __                    
-
-    | |__  ___| |_ / _|_ _ __ _ _ __  ___ 
-    | '_ \\/ _ \\  _|  _| '_/ _\` | '  \\/ -_)
-    |_.__/\\___/\\__|_| |_| \\__,_|_|_|_\\___|
+    const banner = `
+     _           _    __                          
+    | |         | |  / _|                         
+    | |__   ___ | |_| |_ _ __ __ _ _ __ ___   ___ 
+    | '_ \\ / _ \\| __|  _| '__/ _\` | '_ \` _ \\ / _ \\
+    | |_) | (_) | |_| | | | | (_| | | | | | |  __/
+    |_.__/ \\___/ \\__|_| |_|  \\__,_|_| |_| |_|\\___|
     `;
 
     console.log(`krypton Innovations`);
-    console.log(`${purple}${botframeLogo}${reset}`);
+    console.log(banner);
     console.log(`v${require("../package.json").version} | ${time}\n`);
 
 
