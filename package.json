@@ -1,6 +1,6 @@
 {
   "name": "botframe",
-  "version": "0.0.4",
+  "version": "0.0.9",
   "main": "src/index.js",
   "author": "krypton Innovations",
   "license": "ISC",
