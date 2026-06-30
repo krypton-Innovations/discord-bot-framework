@@ -42,16 +42,13 @@ class FrameworkClient extends Client {
 
   async start(token) {
     console.log('BOOT | Preparing to login...');
-    console.log(require("../../../package.json").version)
     const time = Date.now();
 
     const localCommands = getLocalCommands(this.config.commandsPath);
     for (const cmd of localCommands) {
       this.commands.set(cmd.name, cmd);
     }
-
-    await registerCommands(this, localCommands);
-
+    
     if (this.config.eventsPath) {
       await loadEvents(this, this.config.eventsPath);
     }
@@ -63,6 +60,14 @@ class FrameworkClient extends Client {
     });
 
     await this.login(token);
+
+    await new Promise((resolve) => {
+      if (this.isReady()) return resolve();
+      this.once('ready', resolve);
+    });
+
+    await registerCommands(this, localCommands);
+
     const timeTaken = Date.now() - time;
     console.log(`BOOT | ${this.user.username} is online (took ${timeTaken}ms)`);
   }
