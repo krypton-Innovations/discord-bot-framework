@@ -5,11 +5,41 @@ const getBuiltInCommands = require('./registry/getBuiltInCommands');
 const { loadEvents } = require('./handlers/eventHandler');
 const { handleCommand } = require('./handlers/commandHandler');
 
-// ... defaultIntents, defaultPartials unchanged ...
+const defaultIntents = [
+  GatewayIntentBits.Guilds,
+  GatewayIntentBits.GuildMembers,
+  GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.MessageContent,
+  GatewayIntentBits.DirectMessages,
+];
+
+const defaultPartials = [
+  Partials.Message,
+  Partials.Channel,
+  Partials.Reaction,
+];
 
 class FrameworkClient extends Client {
   constructor(options = {}) {
-    // ... constructor unchanged ...
+    const {
+      intents = defaultIntents,
+      partials = defaultPartials,
+      commandsPath,
+      eventsPath,
+      devUserIds = [],
+      ...clientOptions
+    } = options;
+
+    // MUST call super() before accessing this
+    super({ intents, partials, ...clientOptions });
+
+    this.config = {
+      commandsPath,
+      eventsPath,
+      devUserIds,
+    };
+
+    this.commands = new Map();
   }
 
   async start(token) {
@@ -19,12 +49,12 @@ class FrameworkClient extends Client {
     const builtInCommands = getBuiltInCommands();
 
     const localCommands = getLocalCommands(this.config.commandsPath);
-    
+
     const allCommands = [...builtInCommands];
     for (const cmd of localCommands) {
       const existingIndex = allCommands.findIndex(c => c.name === cmd.name);
       if (existingIndex !== -1) {
-        allCommands[existingIndex] = cmd; // override with bot's version
+        allCommands[existingIndex] = cmd;
       } else {
         allCommands.push(cmd);
       }
